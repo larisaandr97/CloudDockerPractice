@@ -14,12 +14,15 @@ services:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
+      
   customer:
     container_name: customer
     #    image: larisaandr97/customer:latest
     depends_on:
       - mysqldb
-    build: ./customer
+    build: 
+        context: ./customer
+        dockerfile: Dockerfile
     restart: on-failure
     env_file: ./.env
     ports:
@@ -37,12 +40,15 @@ services:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
+    
   fraud:
     container_name: fraud
     #    image: larisaandr97/customer:latest
     depends_on:
       - mysqldb
-    build: ./fraud
+    build: 
+        context: ./fraud
+        dockerfile: Dockerfile
     restart: on-failure
     env_file: ./.env
     ports:
