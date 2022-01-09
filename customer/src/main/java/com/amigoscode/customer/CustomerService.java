@@ -1,5 +1,8 @@
 package com.amigoscode.customer;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public record CustomerService() {
     public void registerCustomer(final CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
