@@ -16,10 +16,10 @@ services:
       - db:/var/lib/mysql
   customer:
     container_name: customer
-    image: larisaandr97/customer:latest
+#    image: larisaandr97/customer:latest
     depends_on:
       - mysqldb
-#    build: ./customer
+    build: ./customer
     restart: on-failure
     env_file: ./.env
     ports:
