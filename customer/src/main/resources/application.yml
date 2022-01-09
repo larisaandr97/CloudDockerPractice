@@ -4,3 +4,15 @@ server:
 spring:
   application:
     name: customer
+  datasource:
+    username: 'amigoscode'
+    password: 'password'
+    url: jdbc:mysql://localhost:5432/customer
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL5Dialect
+          format_sql: true
+      show-sql: true

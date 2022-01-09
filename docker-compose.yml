@@ -11,12 +11,12 @@ services:
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
       #      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-      - "8080:8080"
+      - "5432:5432"
     volumes:
       - db:/var/lib/mysql
   customer:
     container_name: customer
-#    image: larisaandr97/customer:latest
+    #    image: larisaandr97/customer:latest
     depends_on:
       - mysqldb
     build: ./customer
