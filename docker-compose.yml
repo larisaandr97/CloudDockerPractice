@@ -18,7 +18,7 @@ services:
     container_name: customer
     depends_on:
       - mysqldb
-    build: ./customer
+#    build: ./customer
     restart: on-failure
     env_file: ./.env
     ports:
