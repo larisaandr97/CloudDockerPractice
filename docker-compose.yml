@@ -11,7 +11,7 @@ services:
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
       #      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-      - "5432:5432"
+      - "3306:3306"
     volumes:
       - db:/var/lib/mysql
   customer:
