@@ -16,6 +16,7 @@ services:
       - db:/var/lib/mysql
   customer:
     container_name: customer
+    image: larisaandr97/customer:latest
     depends_on:
       - mysqldb
 #    build: ./customer
