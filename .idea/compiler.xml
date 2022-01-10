@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="fraud" />
+        <module name="product" />
         <module name="customer" />
       </profile>
     </annotationProcessing>
@@ -15,6 +16,7 @@
       <module name="amigosservices" target="17" />
       <module name="customer" target="17" />
       <module name="fraud" target="17" />
+      <module name="product" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

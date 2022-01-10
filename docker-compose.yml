@@ -67,5 +67,32 @@ services:
     stdin_open: true
     tty: true
 
+
+    product:
+      container_name: product
+      #    image: larisaandr97/customer:latest
+      depends_on:
+        - mysqldb
+      build:
+        context: ./product
+        dockerfile: Dockerfile
+      restart: on-failure
+      env_file: ./.env
+      ports:
+        #      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+        - "8081:8081"
+      environment:
+        SPRING_APPLICATION_JSON: '{
+            "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
+            "spring.datasource.username" : "$MYSQLDB_USER",
+            "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+            "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+            "spring.jpa.hibernate.ddl-auto" : "update"
+          }'
+      volumes:
+        - .m2:/root/.m2
+      stdin_open: true
+      tty: true
+
 volumes:
   db:
