@@ -1,6 +1,6 @@
 FROM maven:3.8.3-amazoncorretto-17
 
-WORKDIR ./fraud
+WORKDIR ./product
 COPY . .
 RUN mvn clean install -e
 
