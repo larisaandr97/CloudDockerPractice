@@ -7,15 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="fraud" />
         <module name="product" />
+        <module name="fraud" />
         <module name="customer" />
+        <module name="order" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="amigosservices" target="17" />
       <module name="customer" target="17" />
       <module name="fraud" target="17" />
+      <module name="order" target="17" />
       <module name="product" target="17" />
     </bytecodeTargetLevel>
   </component>
