@@ -1,19 +1,17 @@
 package com.amigoscode.product;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+public interface ProductService {
 
-@Service
-@AllArgsConstructor
-public class ProductService {
-    public final ProductRepository productRepository;
+    Product createProduct(Product product);
 
-    public boolean productCheckIfExist(final Integer customerId) {
-        productRepository.save(
-                ProductCheckIfExist.builder()
-                        .customerId(customerId)
-                        .build());
-        return false;
-    }
+    Product findProductById(int id);
+
+    Page<Product> getProductsBy(String category, String name, boolean descending, Pageable pageable);
+
+    Product updateStock(int productId, int stock);
+
+    void updateRating(Product product, double value);
 }
