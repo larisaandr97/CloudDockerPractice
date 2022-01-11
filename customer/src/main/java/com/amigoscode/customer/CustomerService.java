@@ -28,6 +28,16 @@ public class CustomerService {
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
-        //todo: send notification
+        //todo send notification
+
+        //check if the customer has products
+        final ProductCheckResponse productCheckResponse = restTemplate.getForObject(
+                "http://localhost:8081/api/v1/product-check/{customerId}",
+                ProductCheckResponse.class,
+                customer.getId());
+        if (productCheckResponse.isAnyProduct()) {
+            throw new IllegalStateException("no products");
+        }
+
     }
 }
