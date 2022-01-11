@@ -22,7 +22,7 @@ public class CustomerService {
         customerRepository.saveAndFlush(customer);
         //TODO: check if fraudster
         final FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://localhost:8082/api/v1/fraud-check/{customerId}",
+                "http://localhost:8081/api/v1/fraud-check/{customerId}",
                 FraudCheckResponse.class,
                 customer.getId());
         if (fraudCheckResponse.isFraudster()) {
@@ -31,13 +31,13 @@ public class CustomerService {
         //todo send notification
 
         //check if the customer has products
-        final ProductCheckResponse productCheckResponse = restTemplate.getForObject(
-                "http://localhost:8081/api/v1/product-check/{customerId}",
-                ProductCheckResponse.class,
-                customer.getId());
-        if (productCheckResponse.isAnyProduct()) {
-            throw new IllegalStateException("no products");
-        }
+//        final ProductCheckResponse productCheckResponse = restTemplate.getForObject(
+//                "http://localhost:8082/api/v1/product-check/{customerId}",
+//                ProductCheckResponse.class,
+//                customer.getId());
+//        if (productCheckResponse.isAnyProduct()) {
+//            throw new IllegalStateException("no products");
+//        }
 
     }
 }
