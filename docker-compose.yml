@@ -14,12 +14,15 @@ services:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
+
   customer:
     container_name: customer
     #    image: larisaandr97/customer:latest
     depends_on:
       - mysqldb
-    build: ./customer
+    build:
+      context: ./customer
+      dockerfile: Dockerfile
     restart: on-failure
     env_file: ./.env
     ports:
@@ -37,12 +40,39 @@ services:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
-  fraud:
-    container_name: fraud
-    #    image: larisaandr97/customer:latest
+
+#  fraud:
+#    container_name: fraud
+#    depends_on:
+#      - mysqldb
+#    build:
+#      context: ./fraud
+#      dockerfile: Dockerfile
+#    restart: on-failure
+#    env_file: ./.env
+#    ports:
+#      #      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+#      - "8081:8081"
+#    environment:
+#      SPRING_APPLICATION_JSON: '{
+#          "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
+#          "spring.datasource.username" : "$MYSQLDB_USER",
+#          "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+#          "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+#          "spring.jpa.hibernate.ddl-auto" : "update"
+#        }'
+#    volumes:
+#      - .m2:/root/.m2
+#    stdin_open: true
+#    tty: true
+
+  product:
+    container_name: product
     depends_on:
       - mysqldb
-    build: ./fraud
+    build:
+      context: ./product
+      dockerfile: Dockerfile
     restart: on-failure
     env_file: ./.env
     ports:
