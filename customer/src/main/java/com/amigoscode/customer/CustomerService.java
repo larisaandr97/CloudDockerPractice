@@ -1,15 +1,43 @@
 package com.amigoscode.customer;
 
+import com.amigoscode.customer.entity.Customer;
+import com.amigoscode.customer.utils.CustomerAlreadyExistException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
-public class CustomerService {
+public class CustomerService implements UserDetailsService {
 
     private final CustomerRepository customerRepository;
     private final RestTemplate restTemplate;
+
+    public Customer findByUsername(final String username) {
+        return customerRepository.findByUsername(username);
+    }
+
+    public void registerNewCustomer(final Customer customer) {
+        if (emailExists(customer.getEmail())) {
+            throw new CustomerAlreadyExistException("There is an account with that email address: " + customer.getEmail());
+        }
+        customerRepository.save(customer);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+        final Customer customer = customerRepository.findByUsername(username);
+        if (customer == null)
+            throw new UsernameNotFoundException("User not found.");
+        return customer;
+    }
+
+    private boolean emailExists(String email) {
+        return customerRepository.findByEmail(email) != null;
+    }
 
     public void registerCustomer(final CustomerRegistrationRequest request) {
         final Customer customer = Customer.builder()
@@ -20,14 +48,6 @@ public class CustomerService {
         //TODO: check if email valid
         //TODO: check if email not taken
         customerRepository.saveAndFlush(customer);
-        //TODO: check if fraudster
-        final FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://localhost:8081/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customer.getId());
-        if (fraudCheckResponse.isFraudster()) {
-            throw new IllegalStateException("fraudster");
-        }
         //todo send notification
 
         //check if the customer has products

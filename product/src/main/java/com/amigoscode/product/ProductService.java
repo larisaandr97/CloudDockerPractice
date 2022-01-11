@@ -3,6 +3,8 @@ package com.amigoscode.product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ProductService {
 
     Product createProduct(Product product);
@@ -14,4 +16,6 @@ public interface ProductService {
     Product updateStock(int productId, int stock);
 
     void updateRating(Product product, double value);
+
+    List<String> getReviews(Integer id);
 }

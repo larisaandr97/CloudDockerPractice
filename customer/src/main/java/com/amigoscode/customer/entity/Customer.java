@@ -1,23 +1,94 @@
-package com.amigoscode.customer;
+package com.amigoscode.customer.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Customer {
+@Data
+@Table(name = "customers")
+public class Customer implements UserDetails {
     @Id
-    @SequenceGenerator(name = "customer_id_sequence", sequenceName = "customer_id_sequence")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_sequence")
-    private Integer id;
-    private String firstName;
-    private String lastName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(unique = true)
+    @Size(min = 8, max = 20)
+    private String username;
+
+    @Column(length = 100)
+    private String password;
+
+    @Column(length = 100)
     private String email;
+
+    @Column(length = 100)
+    private String firstName;
+
+    @Column(length = 100)
+    private String lastName;
+
+    @Column(nullable = false)
+    private boolean enabled;
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<Order> orders;
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<BankAccount> bankAccounts;
+//
+//    @OneToOne(mappedBy = "user")
+//    private Cart cart;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public Customer(String username, String password, String email, String firstName, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }

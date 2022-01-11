@@ -1,7 +1,7 @@
-package com.javaproject.storeapp.exception;
+package com.amigoscode.customer.utils;
 
-public class UserAlreadyExistException extends RuntimeException {
-    public UserAlreadyExistException(String message) {
+public class CustomerAlreadyExistException extends RuntimeException {
+    public CustomerAlreadyExistException(String message) {
         super(message);
     }
 }

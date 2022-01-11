@@ -3,11 +3,11 @@ server:
 
 spring:
   application:
-    name: fraud
+    name: reviews
   datasource:
     username: 'root'
     password: ''
-    url: jdbc:mysql://localhost:3306/frauds
+    url: jdbc:mysql://localhost:3306/reviews
   jpa:
     hibernate:
       ddl-auto: update

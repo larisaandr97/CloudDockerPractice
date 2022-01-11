@@ -1,4 +1,4 @@
-package com.javaproject.storeapp.dto;
+package com.amigoscode.customer.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -6,10 +6,10 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import static com.javaproject.storeapp.entity.Pattern.EMAIL_ADDRESS;
+import static com.amigoscode.customer.entity.Pattern.EMAIL_ADDRESS;
 
 @Data
-public class UserRequest {
+public class CustomerRequest {
 
     @NotBlank
     @Length(min = 8, max = 20)
@@ -32,7 +32,7 @@ public class UserRequest {
     @Length(max = 100)
     private String email;
 
-    public UserRequest(String username, String firstName, String lastName, String password, String email) {
+    public CustomerRequest(String username, String firstName, String lastName, String password, String email) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

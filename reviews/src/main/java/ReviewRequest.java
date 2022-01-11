@@ -1,5 +1,3 @@
-package com.javaproject.storeapp.dto;
-
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,6 +17,8 @@ public class ReviewRequest {
     @Min(1)
     @Max(5)
     private int rating;
+
+    private int productId;
 
 //    @NotNull
 //    @Length(min = 2, max = 100)

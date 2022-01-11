@@ -1,5 +1,3 @@
-package com.javaproject.storeapp.entity;
-
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,17 +14,19 @@ public class Review {
     private String comment;
     private int rating;
     private String author;
+    private Integer productId;
 
-    @ManyToOne()
-    private Product product;
+//    @ManyToOne()
+//    private Product product;
 
     private LocalDate dateAdded;
 
     public Review() {
     }
 
-    public Review(String comment, int rating) {
+    public Review(String comment, int rating, int productId) {
         this.comment = comment;
         this.rating = rating;
+        this.productId = productId;
     }
 }

@@ -1,4 +1,4 @@
-package com.javaproject.storeapp.controller;
+package com.amigoscode.customer.utils;
 
 public class FlashMessage {
     private String message;

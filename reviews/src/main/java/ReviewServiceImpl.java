@@ -1,13 +1,6 @@
-package com.javaproject.storeapp.service.impl;
-
-import com.javaproject.storeapp.entity.Product;
-import com.javaproject.storeapp.entity.Review;
-import com.javaproject.storeapp.exception.ResourceNotFoundException;
-import com.javaproject.storeapp.repository.ReviewRepository;
-import com.javaproject.storeapp.service.ProductService;
-import com.javaproject.storeapp.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +9,12 @@ import java.util.Optional;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final ProductService productService;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ProductService productService) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, RestTemplate restTemplate) {
         this.reviewRepository = reviewRepository;
-        this.productService = productService;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -31,7 +24,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> getReviewsForProduct(int productId) {
-        Product product = productService.findProductById(productId);
         return reviewRepository.findReviewsByProduct(productId);
     }
 
@@ -48,5 +40,12 @@ public class ReviewServiceImpl implements ReviewService {
         } else {
             throw new ResourceNotFoundException("Review with Id " + id + " not found.");
         }
+    }
+
+    @Override
+    public String getAuthenticatedCustomer() {
+        return restTemplate.getForObject(
+                "http://localhost:8082/api/v1/customers/authUser",
+                String.class);
     }
 }

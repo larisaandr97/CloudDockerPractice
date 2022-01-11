@@ -5,7 +5,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +16,12 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final RestTemplate restTemplate;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, RestTemplate restTemplate) {
         this.productRepository = productRepository;
+        this.restTemplate = restTemplate;
     }
-
 
     @Override
     public Product createProduct(Product p) {
@@ -75,6 +78,18 @@ public class ProductServiceImpl implements ProductService {
     public void updateRating(Product product, double value) {
         product.setRating(value);
         productRepository.save(product);
+    }
+
+    @Override
+    public List<String> getReviews(final Integer productId) {
+        final ReviewsCheckResponse reviewsCheckResponse = restTemplate.getForObject(
+                "http://localhost:8082/api/v1/reviews/{productId}",
+                ReviewsCheckResponse.class,
+                productId);
+        if (reviewsCheckResponse != null) {
+            return reviewsCheckResponse.getReviewsBody();
+        }
+        return new ArrayList<>();
     }
 
 }

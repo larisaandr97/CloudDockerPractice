@@ -1,4 +1,4 @@
-package com.javaproject.storeapp.entity;
+package com.amigoscode.customer.entity;
 
 public class Pattern {
 

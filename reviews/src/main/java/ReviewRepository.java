@@ -1,6 +1,3 @@
-package com.javaproject.storeapp.repository;
-
-import com.javaproject.storeapp.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +9,7 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     default List<Review> findReviewsByProduct(int productId) {
         return this.findAll()
                 .stream()
-                .filter(rev -> rev.getProduct().getId() == productId)
+                .filter(rev -> rev.getProductId() == productId)
                 .collect(Collectors.toList());
     }
 }

@@ -1,7 +1,3 @@
-package com.javaproject.storeapp.service;
-
-import com.javaproject.storeapp.entity.Review;
-
 import java.util.List;
 
 public interface ReviewService {
@@ -13,4 +9,5 @@ public interface ReviewService {
 
     Review findReviewById(int id);
 
+    String getAuthenticatedCustomer();
 }

@@ -33,13 +33,11 @@ public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
     private final ImageService imageService;
-    private final ReviewService reviewService;
 
-    public ProductController(ProductService productService, ProductMapper productMapper, ImageService imageService, ReviewService reviewService) {
+    public ProductController(ProductService productService, ProductMapper productMapper, ImageService imageService) {
         this.productService = productService;
         this.productMapper = productMapper;
         this.imageService = imageService;
-        this.reviewService = reviewService;
     }
 
     @GetMapping("/new")
@@ -69,8 +67,12 @@ public class ProductController {
     @GetMapping("{id}")
     public String getProduct(@PathVariable int id, Model model) {
         Product productFound = productService.findProductById(id);
-        List<Review> reviewsFound = reviewService.getReviewsForProduct(id);
-        model.addAttribute("reviews", reviewsFound);
+
+        //check if the customer has products
+        final List<String> reviews = productService.getReviews(productFound.getId());
+
+//        List<Review> reviewsFound = reviewService.getReviewsForProduct(id);
+        model.addAttribute("reviews", reviews);
         model.addAttribute("product", productFound);
         return "productDetails";
     }

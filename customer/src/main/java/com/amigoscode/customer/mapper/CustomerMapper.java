@@ -1,18 +1,18 @@
-package com.javaproject.storeapp.mapper;
+package com.amigoscode.customer.mapper;
 
-import com.javaproject.storeapp.dto.UserRequest;
-import com.javaproject.storeapp.entity.User;
+import com.amigoscode.customer.dto.CustomerRequest;
+import com.amigoscode.customer.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper {
+public class CustomerMapper {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User userRequestToUser(UserRequest userRequest) {
-        return new User(userRequest.getUsername(), passwordEncoder.encode(userRequest.getPassword()), userRequest.getEmail(), userRequest.getFirstName(), userRequest.getLastName());
+    public Customer customerRequestToCustomer(CustomerRequest userRequest) {
+        return new Customer(userRequest.getUsername(), passwordEncoder.encode(userRequest.getPassword()), userRequest.getEmail(), userRequest.getFirstName(), userRequest.getLastName());
     }
 }
