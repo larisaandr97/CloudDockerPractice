@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
 @Entity
 public class Product {
     //    @SequenceGenerator(name = "product_id_sequence", sequenceName = "product_id_sequence")
@@ -27,6 +27,9 @@ public class Product {
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
     private ProductCategory productCategory;
+
+    @Lob
+    private Byte[] image;
 
     public Product() {
     }
