@@ -1,3 +1,5 @@
+package com.amigoscode.reviews;
+
 import org.springframework.stereotype.Component;
 
 @Component

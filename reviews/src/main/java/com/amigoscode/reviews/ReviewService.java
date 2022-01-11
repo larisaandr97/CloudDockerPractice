@@ -1,3 +1,5 @@
+package com.amigoscode.reviews;
+
 import java.util.List;
 
 public interface ReviewService {

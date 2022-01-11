@@ -1,3 +1,5 @@
+package com.amigoscode.reviews;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -38,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
         if (reviewOptional.isPresent()) {
             return reviewOptional.get();
         } else {
-            throw new ResourceNotFoundException("Review with Id " + id + " not found.");
+            throw new ResourceNotFoundException("com.amigoscode.reviews.Review with Id " + id + " not found.");
         }
     }
 

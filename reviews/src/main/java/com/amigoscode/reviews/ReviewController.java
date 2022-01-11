@@ -1,3 +1,5 @@
+package com.amigoscode.reviews;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,7 +37,7 @@ public class ReviewController {
         double newRating = (sum + reviewRequest.getRating()) / (reviews.size() + 1);
 //        productService.updateRating(product, newRating);
 
-        //create Review entity
+        //create com.amigoscode.reviews.Review entity
         Review review = reviewMapper.reviewRequestToReview(reviewRequest);
         review.setAuthor(customerUsername);
         review.setProductId(productId);
@@ -53,14 +55,14 @@ public class ReviewController {
 //    public ModelAndView deleteReview(@PathVariable int reviewId,
 //                                     Principal principal) {
 //        final String customerUsername= reviewService.getAuthenticatedCustomer();
-//        Review review = reviewService.findReviewById(reviewId);
+//        com.amigoscode.reviews.Review review = reviewService.findReviewById(reviewId);
 //        Product product = productService.findProductById(review.getProduct().getId());
 //        ModelAndView modelAndView = new ModelAndView("productDetails");
 //        if (customerUsername.equals(review.getAuthor()) || user.getRole().getName().equals("ROLE_ADMIN")) {
 //            reviewService.deleteReview(review);
 //            //update rating
-//            List<Review> reviews = reviewService.getReviewsForProduct(product.getId());
-//            int sum = reviews.stream().mapToInt(Review::getRating).sum();
+//            List<com.amigoscode.reviews.Review> reviews = reviewService.getReviewsForProduct(product.getId());
+//            int sum = reviews.stream().mapToInt(com.amigoscode.reviews.Review::getRating).sum();
 //            double newRating = reviews.size() != 0 ? sum / reviews.size() : sum;
 //            productService.updateRating(product, newRating);
 //
@@ -69,7 +71,7 @@ public class ReviewController {
 //            modelAndView.addObject("sameUser", "NO");
 //        }
 //        modelAndView.addObject("product", product);
-//        List<Review> reviewsFound = reviewService.getReviewsForProduct(product.getId());
+//        List<com.amigoscode.reviews.Review> reviewsFound = reviewService.getReviewsForProduct(product.getId());
 //        modelAndView.addObject("reviews", reviewsFound);
 //        return modelAndView;
 //    }
