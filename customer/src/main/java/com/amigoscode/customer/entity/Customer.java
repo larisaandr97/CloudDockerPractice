@@ -1,5 +1,8 @@
 package com.amigoscode.customer.entity;
 
+import com.amigoscode.customer.bankAccount.BankAccount;
+import com.amigoscode.customer.cart.Cart;
+import com.amigoscode.customer.order.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,14 +51,14 @@ public class Customer implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Order> orders;
-//
-//    @OneToMany(mappedBy = "user")
-//    private List<BankAccount> bankAccounts;
-//
-//    @OneToOne(mappedBy = "user")
-//    private Cart cart;
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "customer")
+    private List<BankAccount> bankAccounts;
+
+    @OneToOne(mappedBy = "customer")
+    private Cart cart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

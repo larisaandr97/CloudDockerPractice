@@ -1,0 +1,9 @@
+com\amigoscode\reviews\ResourceNotFoundException.class
+com\amigoscode\reviews\Review.class
+com\amigoscode\reviews\ReviewMapper.class
+com\amigoscode\reviews\ReviewRepository.class
+com\amigoscode\reviews\ReviewApplication.class
+com\amigoscode\reviews\ReviewController.class
+com\amigoscode\reviews\ReviewRequest.class
+com\amigoscode\reviews\ReviewServiceImpl.class
+com\amigoscode\reviews\ReviewService.class

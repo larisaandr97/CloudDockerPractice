@@ -8,43 +8,56 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("api/v1/reviews")
+@RequestMapping("/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
     private final ReviewMapper reviewMapper;
 
-    public ReviewController(ReviewService reviewService,ReviewMapper reviewMapper) {
+    public ReviewController(ReviewService reviewService, ReviewMapper reviewMapper) {
         this.reviewService = reviewService;
         this.reviewMapper = reviewMapper;
+    }
+
+    @GetMapping("/list/{productId}")
+    public List<String> getReviewsListForProduct(@PathVariable int productId) {
+        return reviewService.getReviewsForProduct(productId).stream().map(Review::getComment).collect(Collectors.toList());
+    }
+
+    @GetMapping("{productId}")
+    public ModelAndView getReviewsForProduct(@PathVariable int productId) {
+        ModelAndView modelAndView = new ModelAndView("reviewDetails");
+        modelAndView.addObject("product", productId);
+        List<Review> reviewsFound = reviewService.getReviewsForProduct(productId);
+        modelAndView.addObject("reviews", reviewsFound);
+        return modelAndView;
     }
 
     @PostMapping("{productId:\\d+}")
     public ModelAndView createReview(@PathVariable int productId,
                                      @Valid
                                      @RequestBody
-                                     @ModelAttribute ReviewRequest reviewRequest,
-                                     Principal principal) {
+                                     @ModelAttribute ReviewRequest reviewRequest) {
 
 //        Product product = productService.findProductById(productId);
 //        Customer user = (Customer) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-       final String customerUsername= reviewService.getAuthenticatedCustomer();
+        final String customerUsername = reviewService.getAuthenticatedCustomerUsername();
         //compute rating
         List<Review> reviews = reviewService.getReviewsForProduct(productId);
         int sum = reviews.stream().mapToInt(Review::getRating).sum();
-        double newRating = (sum + reviewRequest.getRating()) / (reviews.size() + 1);
+//        double newRating = (sum + reviewRequest.getRating()) / (reviews.size() + 1);
 //        productService.updateRating(product, newRating);
 
-        //create com.amigoscode.reviews.Review entity
         Review review = reviewMapper.reviewRequestToReview(reviewRequest);
         review.setAuthor(customerUsername);
         review.setProductId(productId);
         review.setDateAdded(LocalDate.now());
         reviewService.createReview(review);
 
-        ModelAndView modelAndView = new ModelAndView("productDetails");
+        ModelAndView modelAndView = new ModelAndView("reviewDetails");
         modelAndView.addObject("product", productId);
         List<Review> reviewsFound = reviewService.getReviewsForProduct(productId);
         modelAndView.addObject("reviews", reviewsFound);

@@ -1,5 +1,7 @@
 package com.amigoscode.product;
 
+import com.amigoscode.product.exception.NegativeQuantityException;
+import com.amigoscode.product.exception.ProductNotInStockException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -7,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -68,10 +67,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateStock(int productId, int stock) {
+    public void updateStock(int productId, int stock) {
         Product product = findProductById(productId);
         product.setStock(stock);
-        return productRepository.save(product);
+        productRepository.save(product);
     }
 
     @Override
@@ -82,14 +81,35 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<String> getReviews(final Integer productId) {
-        final ReviewsCheckResponse reviewsCheckResponse = restTemplate.getForObject(
-                "http://localhost:8082/api/v1/reviews/{productId}",
-                ReviewsCheckResponse.class,
+        final List<String> reviewsCheckResponse = restTemplate.getForObject(
+                "http://localhost:8083/reviews/list/{productId}",
+                List.class,
                 productId);
-        if (reviewsCheckResponse != null) {
-            return reviewsCheckResponse.getReviewsBody();
+        return Objects.requireNonNullElseGet(reviewsCheckResponse, ArrayList::new);
+    }
+
+    @Override
+    public double validateProduct(int productId, int quantity) {
+        Product product = findProductById(productId);
+
+        if (quantity <= 0)
+            throw new NegativeQuantityException();
+        if (product.getStock() < quantity) {
+            throw new ProductNotInStockException(productId);
         }
-        return new ArrayList<>();
+        return product.getPrice();
+    }
+
+    @Override
+    public double getPrice(int productId) {
+        Product product = findProductById(productId);
+        return product.getPrice();
+    }
+
+    @Override
+    public int getStock(int productId) {
+        Product product = findProductById(productId);
+        return product.getStock();
     }
 
 }

@@ -45,9 +45,16 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public String getAuthenticatedCustomer() {
+    public int getAuthenticatedCustomer() {
         return restTemplate.getForObject(
                 "http://localhost:8082/api/v1/customers/authUser",
+                int.class);
+    }
+
+    @Override
+    public String getAuthenticatedCustomerUsername() {
+        return restTemplate.getForObject(
+                "http://localhost:8082/api/v1/customers/authUsername",
                 String.class);
     }
 }

@@ -7,6 +7,7 @@ import com.amigoscode.customer.mapper.CustomerMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +18,34 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Slf4j
-@RestController
-@RequestMapping("api/v1/customers")
+@Controller
+@RequestMapping("/customers")
 @AllArgsConstructor
 public class CustomerController {
 
     private final CustomerMapper customerMapper;
     private final CustomerService customerService;
 
-    @PostMapping
+    @GetMapping
+    public String goHome() {
+        return "home";
+    }
+
+    @PostMapping("/registerCustomer")
     public void registerCustomer(@RequestBody CustomerRegistrationRequest customerRegistrationRequest) {
         log.info("new customer registration {}", customerRegistrationRequest);
         customerService.registerCustomer(customerRegistrationRequest);
     }
 
     @GetMapping("/authUser")
-    public String getAuthenticatedUser(Principal principal) {
+    public int getAuthenticatedUser(Principal principal) {
+        Customer user = (Customer) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        log.info("Getting authenticated user... {}", user.getUsername());
+        return user.getId();
+    }
+
+    @GetMapping("/authUsername")
+    public String getAuthenticatedUsername(Principal principal) {
         Customer user = (Customer) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         log.info("Getting authenticated user... {}", user.getUsername());
         return user.getUsername();
@@ -48,7 +61,7 @@ public class CustomerController {
             request.getSession().removeAttribute("flash");
         } catch (Exception ex) {
         }
-        return "login";
+        return "loginView";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
@@ -78,7 +91,7 @@ public class CustomerController {
         customer.setRole(new Role(1, "ROLE_USER"));
         customer.setEnabled(true);
         customerService.registerNewCustomer(customer);
-        ModelAndView modelAndView = new ModelAndView("login");
+        ModelAndView modelAndView = new ModelAndView("loginView");
         modelAndView.addObject("user", new Customer());
         return modelAndView;
     }

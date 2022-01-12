@@ -1,7 +1,7 @@
 package com.amigoscode.customer;
 
 import com.amigoscode.customer.entity.Customer;
-import com.amigoscode.customer.utils.CustomerAlreadyExistException;
+import com.amigoscode.customer.exception.CustomerAlreadyExistException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

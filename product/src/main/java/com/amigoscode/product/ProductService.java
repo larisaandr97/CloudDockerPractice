@@ -13,9 +13,15 @@ public interface ProductService {
 
     Page<Product> getProductsBy(String category, String name, boolean descending, Pageable pageable);
 
-    Product updateStock(int productId, int stock);
+    void updateStock(int productId, int stock);
 
     void updateRating(Product product, double value);
 
     List<String> getReviews(Integer id);
+
+    double validateProduct(int productId, int quantity);
+
+    double getPrice(int productId);
+
+    int getStock(int productId);
 }

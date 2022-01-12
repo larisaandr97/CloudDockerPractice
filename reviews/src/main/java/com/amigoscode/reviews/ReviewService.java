@@ -11,5 +11,7 @@ public interface ReviewService {
 
     Review findReviewById(int id);
 
-    String getAuthenticatedCustomer();
+    int getAuthenticatedCustomer();
+
+    String getAuthenticatedCustomerUsername();
 }
