@@ -34,10 +34,10 @@
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/products">Catalog</a>
+                <a class="nav-link" href="http://localhost:8082/products">Catalog</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link" href="/cart">Your cart</a>
+                <a class="nav-link" href="http://localhost:8081/cart">Your cart</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -46,11 +46,11 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/accounts">Bank accounts</a>
-                    <a class="dropdown-item" href="/orders/all">Orders</a>
+                    <a class="dropdown-item" href="http://localhost:8081/orders/all">Orders</a>
                 </div>
             </li>
             <li>
-                <form action="/products" id="searchForm" class="form-inline my-2 my-lg-0" method="GET">
+                <form action="http://localhost:8082/products" id="searchForm" class="form-inline my-2 my-lg-0" method="GET">
                     <input name="name" type="text" class="form-control" placeholder="Search for..."
                            id="search"/>
                     <button type="submit" class="btn btn-default text-white"> Search

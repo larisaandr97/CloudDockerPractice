@@ -11,7 +11,7 @@
     <div class="row myCard bg-light mb-1 text-center"
          style="text-align:center;margin:5rem;">
         <div class="col-6 marginTop">
-            <img th:src="@{'/products/getImage/' + ${product.id}}" style="width:15rem;" th:alt="${product.name}">
+            <img th:src="@{'http://localhost:8082/products/getImage/' + ${product.id}}" style="width:15rem;" th:alt="${product.name}">
         </div>
 
         <div class="col-6 marginTop">
@@ -30,16 +30,16 @@
             </div>
             <br/>
             <form sec:authorize="isAuthenticated()"
-                  th:action="'/cart/add?productId=' + ${product.id} + '&quantity=1'" method="post">
+                  th:action="'http://localhost:8081/cart/add?productId=' + ${product.id} + '&quantity=1'" method="post">
                 <button th:if="${product.stock !=0}" type="submit" class="btn btn-primary" style="margin-top:4rem;">
                     Add to cart <i class="bi bi-cart-plus"></i></button>
                 <button th:if="${product.stock ==0}" disabled type="submit" class="btn btn-primary"
                         style="margin-top:4rem;">
                     Add to cart <i class="bi bi-cart-plus"></i></button>
             </form>
-            <button sec:authorize="isAnonymous()" class="btn btn-primary" data-toggle="modal"
-                    data-target="#exampleModal">Add to cart <i class="bi bi-cart-plus"></i>
-            </button>
+<!--            <button sec:authorize="isAnonymous()" class="btn btn-primary" data-toggle="modal"-->
+<!--                    data-target="#exampleModal">Add to cart <i class="bi bi-cart-plus"></i>-->
+<!--            </button>-->
             <i class="bi bi-tags" style="float:right;"></i>
             <h5 style="float:right;"
                 th:text="${product.productCategory} ">

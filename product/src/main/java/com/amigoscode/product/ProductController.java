@@ -1,8 +1,10 @@
 package com.amigoscode.product;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +22,6 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/products")
-//@AllArgsConstructor
 @Slf4j
 public class ProductController {
 //    public final ProductCheckService productService;
@@ -107,13 +108,17 @@ public class ProductController {
     }
 
     @GetMapping("/getPrice/{productId}")
-    public double getPrice(@PathVariable("productId") int productId) {
-        return productService.getPrice(productId);
+    @ResponseBody
+    public ResponseEntity<Double> getPrice(@PathVariable("productId") int productId) {
+        return ResponseEntity.accepted()
+                .body(productService.getPrice(productId));
     }
 
     @GetMapping("/getStock/{productId}")
-    public int getStock(@PathVariable("productId") int productId) {
-        return productService.getStock(productId);
+    @ResponseBody
+    public ResponseEntity<Integer> getStock(@PathVariable("productId") int productId) {
+        return ResponseEntity.accepted()
+                .body(productService.getStock(productId));
     }
 
     @GetMapping("/updateStock")
@@ -123,9 +128,10 @@ public class ProductController {
     }
 
     @GetMapping("/validate")
-    public double validateProduct(@RequestParam("productId") int productId,
-                                  @RequestParam("quantity") int quantity) {
-        return productService.validateProduct(productId, quantity);
+    @ResponseBody
+    public ResponseEntity<Double> validateProduct(@RequestParam("productId") int productId,
+                                                  @RequestParam("quantity") int quantity) {
+        return ResponseEntity.accepted()
+                .body(productService.validateProduct(productId, quantity));
     }
-
 }

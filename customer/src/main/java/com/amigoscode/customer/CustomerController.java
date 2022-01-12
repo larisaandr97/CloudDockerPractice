@@ -19,7 +19,7 @@ import java.security.Principal;
 
 @Slf4j
 @Controller
-@RequestMapping("/customers")
+//@RequestMapping("/customers")
 @AllArgsConstructor
 public class CustomerController {
 

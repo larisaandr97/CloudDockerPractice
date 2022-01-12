@@ -32,7 +32,7 @@
 
             <td>
                 <div class="btn-group" role="group">
-                    <a class="btn btn-dark" th:href="@{'/orders/' + ${order.id}}"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-dark" th:href="@{'http://localhost:8081/orders/' + ${order.id}}"><i class="bi bi-eye"></i></a>
                 </div>
             </td>
         </tr>
@@ -40,7 +40,7 @@
         </tbody>
 
     </table>
-    <a class="btn btn-success marginTop" href="/products">Shop some more <i class="bi bi-cart-plus"></i></a>
+    <a class="btn btn-success marginTop" href="http://localhost:8082/products">Shop some more <i class="bi bi-cart-plus"></i></a>
 </div>
 
 <div th:replace="layout :: scripts"></div>

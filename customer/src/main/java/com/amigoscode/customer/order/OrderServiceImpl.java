@@ -71,10 +71,10 @@ public class OrderServiceImpl implements OrderService {
         double total = 0;
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItemRequest item : orderItemRequests) {
-            final int stock = restTemplate.getForObject(
+            final int stock = restTemplate.getForEntity(
                     "http://localhost:8082/products/getStock/{productId}",
                     int.class,
-                    item.getProductId());
+                    item.getProductId()).getBody();
 //            Product product = productService.findProductById(item.getProduct().getId());
 //            int stock = product.getStock();
             // if there is available stock for the product, we add to list of order items

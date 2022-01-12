@@ -5,6 +5,8 @@ import com.amigoscode.customer.entity.Customer;
 import com.amigoscode.customer.order.Order;
 import com.amigoscode.customer.order.OrderItemRequest;
 import com.amigoscode.customer.order.OrderServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/cart")
+@Slf4j
 public class CartController {
 
     private final OrderServiceImpl orderService;
@@ -34,18 +37,24 @@ public class CartController {
         this.restTemplate = restTemplate;
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public String addProductToCart(@RequestParam int productId,
                                    @RequestParam int quantity, Principal principal) {
+        System.out.println("HELP");
         Customer customer = (Customer) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-        final double price = restTemplate.getForObject(
+        System.out.println("Getting price...");
+        final ResponseEntity<Double> priceResponse = restTemplate.getForEntity(
                 "http://localhost:8082/products/validate?productId={productId}&quantity={quantity}",
-                double.class,
+                Double.class,
                 productId, quantity);
+        System.out.println("Got price..." + priceResponse.getBody());
 //        double price = cartService.validateProduct(productId, quantity);
-        OrderItemRequest item = new OrderItemRequest(productId, quantity, price);
+        OrderItemRequest item = new OrderItemRequest(productId, quantity, priceResponse.getBody().doubleValue());
+        System.out.println("Created item!!");
         cartService.addProductToCart(customer, item);
-        return "redirect:/cart/";
+//        return "redirect:/cart/";
+        System.out.println("DONE");
+        return "redirect:" + "http://localhost:8081/cart";
     }
 
     @Transactional
@@ -100,10 +109,11 @@ public class CartController {
         OrderItemRequest itemRequest = cartService.getItemByProductId(productId, customer.getId());
         Cart cart = cartService.findCartByUser(customer);
 //        Product product = productService.findProductById(productId);
-        final int stock = restTemplate.getForObject(
+
+        final int stock = restTemplate.getForEntity(
                 "http://localhost:8082/products/getStock/{productId}",
                 int.class,
-                productId);
+                productId).getBody();
         ModelAndView model = new ModelAndView("cart");
         if (stock < quantity || quantity <= 0) {
             model.addObject("cart", cart != null ? cart : new Cart(0));

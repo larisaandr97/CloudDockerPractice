@@ -6,13 +6,13 @@
 <div th:replace="layout :: flash"></div>
 <div class="container text-center">
     <h1 style="font-family: 'Dancing Script', cursive;">Catalog</h1>
-    <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary mt-1" href="/products/new">Add new product</a>
+    <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary mt-1" href="http://localhost:8082/products/new">Add new product</a>
 
     <div class="pos-f-t marginTop">
         <div class="collapse" id="navbarToggleExternalContent">
             <div class="bg-light p-4">
                 <h4>Collapsed content</h4>
-                <form class="form-inline" action="/products" method="GET">
+                <form class="form-inline" action="http://localhost:8082/products" method="GET">
                     <div class="form-group mb-2">
                         <input name="name" type="text" class="form-control" placeholder="Keyword">
                     </div>
@@ -55,7 +55,7 @@
         <div th:each="product : ${productPage.content}" class="card bg-light mb-1 text-center"
              style="text-align:center;margin:1rem;width:18rem;">
 
-            <img th:src="@{'/products/getImage/' + ${product.id}}" style="width:15rem;" th:alt="${product.name}">
+            <img th:src="@{'http://localhost:8082/products/getImage/' + ${product.id}}" style="width:15rem;" th:alt="${product.name}">
             <br/>
 
             <div class="card-body">
@@ -72,7 +72,7 @@
                     <i class="bi bi-star star5"></i>
                 </div>
 
-                <a class="stretched-link" th:href="'/products/' + ${product.id} "></a>
+                <a class="stretched-link" th:href="'http://localhost:8082/products/' + ${product.id} "></a>
             </div>
             <div th:if="${product.stock !=0}" class="card-footer text-muted center"
                  th:text="'Only ' + ${product.stock} + ' left!'">
@@ -86,7 +86,7 @@
         <ul class="pagination mt-3">
             <li th:if="${productPage.totalPages > 0}" class="page-item myCard bg-light mr-1" style="min-width: 2rem;"
                 th:each="pageNumber : ${pageNumbers}">
-                <a class="page-link" th:href="@{/products(size=${productPage.getSize()}, page=${pageNumber})}"
+                <a class="page-link" th:href="@{http://localhost:8082/products(size=${productPage.getSize()}, page=${pageNumber})}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==productPage.number + 1} ? active"></a>
             </li>
@@ -94,6 +94,6 @@
     </navbar>
 </div>
 
-<script type="text/javascript" th:src="@{/../static.assets/js/products.js}"></script>
+<script type="text/javascript" th:src="@{/../static.assets/jshttp://localhost:8082/products.js}"></script>
 </body>
 </html>

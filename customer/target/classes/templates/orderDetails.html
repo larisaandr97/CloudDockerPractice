@@ -28,7 +28,7 @@
             <td th:text="${item.product.id}"></td>
 
             <td>
-                <img th:src="@{'/products/getImage/' + ${item.product.id}}" style="width:4rem;height:auto;">
+                <img th:src="@{'http://localhost:8082/products/getImage/' + ${item.product.id}}" style="width:4rem;height:auto;">
             </td>
 
             <td th:text="${item.quantity}">
@@ -40,7 +40,7 @@
 
             <td>
                 <div class="btn-group" role="group">
-                    <a class="btn btn-dark" th:href="@{'/products/' + ${item.product.id}}"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-dark" th:href="@{'http://localhost:8082/products/' + ${item.product.id}}"><i class="bi bi-eye"></i></a>
                 </div>
             </td>
         </tr>

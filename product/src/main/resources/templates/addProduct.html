@@ -11,7 +11,7 @@
     <div class="card bg-light mb-1 marginTop text-center" style="width:40rem;margin:0 auto;">
         <div class="card-body">
             <h1 class="card-title" style="font-family: 'Dancing Script', cursive;"> New product </h1>
-            <form class="needs-validation card-text" novalidate th:object="${productRequest}" th:action="@{/products/}"
+            <form class="needs-validation card-text" novalidate th:object="${productRequest}" th:action="@{http://localhost:8082/products/}"
                   method="post"
                   enctype="multipart/form-data">
                 <!--          class="was-validated">-->
