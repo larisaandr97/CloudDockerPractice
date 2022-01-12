@@ -13,6 +13,34 @@ services:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: storeapp
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    restart: unless-stopped
 
   customer:
     container_name: customer
@@ -62,7 +90,7 @@ services:
     stdin_open: true
     tty: true
 
-    product:
+  product:
       container_name: product
       depends_on:
         - mysqldb
@@ -88,3 +116,12 @@ services:
 
 volumes:
   db:
+  postgres:
+  pgadmin:
+
+networks:
+  postgres:
+    driver: bridge
+  spring:
+    driver: bridge
+
