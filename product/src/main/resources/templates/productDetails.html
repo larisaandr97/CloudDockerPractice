@@ -30,7 +30,7 @@
             </div>
             <br/>
             <form sec:authorize="isAuthenticated()"
-                  th:action="'http://localhost:8081/cart/add?productId=' + ${product.id} + '&quantity=1'" method="post">
+                  th:action="'http://localhost:8080/cart/add?productId=' + ${product.id} + '&quantity=1'" method="post">
                 <button th:if="${product.stock !=0}" type="submit" class="btn btn-primary" style="margin-top:4rem;">
                     Add to cart <i class="bi bi-cart-plus"></i></button>
                 <button th:if="${product.stock ==0}" disabled type="submit" class="btn btn-primary"

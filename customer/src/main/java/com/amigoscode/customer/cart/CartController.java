@@ -54,7 +54,7 @@ public class CartController {
         cartService.addProductToCart(customer, item);
 //        return "redirect:/cart/";
         System.out.println("DONE");
-        return "redirect:" + "http://localhost:8081/cart";
+        return "redirect:" + "http://localhost:8080/cart";
     }
 
     @Transactional

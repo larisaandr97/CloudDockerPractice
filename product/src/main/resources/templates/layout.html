@@ -37,7 +37,7 @@
                 <a class="nav-link" href="http://localhost:8082/products">Catalog</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link" href="http://localhost:8081/cart">Your cart</a>
+                <a class="nav-link" href="http://localhost:8080/cart">Your cart</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -46,7 +46,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/accounts">Bank accounts</a>
-                    <a class="dropdown-item" href="http://localhost:8081/orders/all">Orders</a>
+                    <a class="dropdown-item" href="http://localhost:8080/orders/all">Orders</a>
                 </div>
             </li>
             <li>
