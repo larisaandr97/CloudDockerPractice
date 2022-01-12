@@ -14,6 +14,35 @@ services:
     volumes:
       - db:/var/lib/mysql
 
+    postgres:
+      container_name: postgres
+      image: postgres
+      environment:
+        POSTGRES_USER: storeapp
+        POSTGRES_PASSWORD: password
+        PGDATA: /data/postgres
+      volumes:
+        - postgres:/data/postgres
+      ports:
+        - "5432:5432"
+      networks:
+        - postgres
+      restart: unless-stopped
+      pgadmin:
+        container_name: pgadmin
+        image: dpage/pgadmin4
+        environment:
+          PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+          PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+          PGADMIN_CONFIG_SERVER_MODE: 'False'
+        volumes:
+          - pgadmin:/var/lib/pgadmin
+        ports:
+          - "5050:80"
+        networks:
+          - postgres
+        restart: unless-stopped
+
   customer:
     container_name: customer
     depends_on:
@@ -63,29 +92,37 @@ services:
       tty: true
 
     reviews:
-        container_name: reviews
-        depends_on:
-          - mysqldb
-        build:
-          context: ./reviews
-          dockerfile: Dockerfile
-        restart: on-failure
-        env_file: ./.env
-        ports:
-          - "8083:8083"
-        environment:
-          SPRING_APPLICATION_JSON: '{
+      container_name: reviews
+      depends_on:
+        - mysqldb
+      build:
+        context: ./reviews
+        dockerfile: Dockerfile
+      restart: on-failure
+      env_file: ./.env
+      ports:
+        - "8083:8083"
+      environment:
+        SPRING_APPLICATION_JSON: '{
                "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
                "spring.datasource.username" : "$MYSQLDB_USER",
                "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
                "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
                "spring.jpa.hibernate.ddl-auto" : "update"
              }'
-        volumes:
-          - .m2:/root/.m2
-        stdin_open: true
-        tty: true
+      volumes:
+        - .m2:/root/.m2
+      stdin_open: true
+      tty: true
 
 
 volumes:
   db:
+  postgres:
+  pgadmin:
+
+networks:
+  postgres:
+    driver: bridge
+  spring:
+    driver: bridge
